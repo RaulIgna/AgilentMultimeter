@@ -1,0 +1,14 @@
+C:\Users\ignar\Documents\Projects\AgilentMultimeter\bin\Release\AgilentMultimeter.dll
+C:\Users\ignar\Documents\Projects\AgilentMultimeter\bin\Release\AgilentMultimeter.pdb
+C:\Users\ignar\Documents\Projects\AgilentMultimeter\bin\Release\Ivi.ConfigServer.dll
+C:\Users\ignar\Documents\Projects\AgilentMultimeter\bin\Release\Ivi.Dmm.dll
+C:\Users\ignar\Documents\Projects\AgilentMultimeter\bin\Release\Ivi.Driver.dll
+C:\Users\ignar\Documents\Projects\AgilentMultimeter\bin\Release\Ivi.ConfigServer.xml
+C:\Users\ignar\Documents\Projects\AgilentMultimeter\bin\Release\Ivi.Dmm.xml
+C:\Users\ignar\Documents\Projects\AgilentMultimeter\bin\Release\Ivi.Driver.xml
+C:\Users\ignar\Documents\Projects\AgilentMultimeter\obj\Release\AgilentMultimeter.csproj.AssemblyReference.cache
+C:\Users\ignar\Documents\Projects\AgilentMultimeter\obj\Release\AgilentMultimeter.csproj.ResolveComReference.cache
+C:\Users\ignar\Documents\Projects\AgilentMultimeter\obj\Release\AgilentMultimeter.csproj.CoreCompileInputs.cache
+C:\Users\ignar\Documents\Projects\AgilentMultimeter\obj\Release\AgilentMultimeter.csproj.CopyComplete
+C:\Users\ignar\Documents\Projects\AgilentMultimeter\obj\Release\AgilentMultimeter.dll
+C:\Users\ignar\Documents\Projects\AgilentMultimeter\obj\Release\AgilentMultimeter.pdb
