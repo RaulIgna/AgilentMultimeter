@@ -20,7 +20,7 @@ namespace AgilentMultimeter
             DMM.Run = true;
             if (NewMultimeter)
             {
-                Agilent_34465A_LIB.Agilent_34465A_LIB.Open(DMM);
+                error = Agilent_34465A_LIB.Agilent_34465A_LIB.Open(DMM);
             }
             else
             {
