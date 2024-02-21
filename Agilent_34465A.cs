@@ -214,7 +214,7 @@ namespace Agilent_34465A_LIB
                     return er;
                 }
 
-                DMM.Driver.Measurement.Initiate();
+               
 
                 DMM.Driver.Trigger.Count = 1;
                 er = getError("", DMM);
@@ -244,6 +244,8 @@ namespace Agilent_34465A_LIB
                 {
                     return er;
                 }
+
+                DMM.Driver.Measurement.Initiate();
             }
             catch (Exception ex)
             {
