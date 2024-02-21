@@ -242,7 +242,7 @@ namespace Agilent_34411A_LIB
                 //Sets or gets the trigger source for measurements.
                 //may be set on bus or external
                 DMM.Driver.Trigger.TriggerSource = Agilent34410TriggerSourceEnum.Agilent34410TriggerSourceImmediate;
-                er = getError(".Trigger.TriggerSource", DMM);
+                er = getError("Trigger.TriggerSource", DMM);
                 if (!er.OK)
                 {
                     return er;
