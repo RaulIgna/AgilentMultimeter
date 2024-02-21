@@ -207,7 +207,7 @@ namespace Agilent_34465A_LIB
                     return er;
                 }
 
-                DMM.Driver.Trigger.Source = Ag3446xTriggerSourceEnum.Ag3446xTriggerSourceExternal;//TriggerSource.Immediate;
+                DMM.Driver.Trigger.Source = Ag3446xTriggerSourceEnum.Ag3446xTriggerSourceImmediate;//TriggerSource.Immediate;
                 er = getError("Trigger.TriggerSource", DMM);
                 if (!er.OK)
                 {
