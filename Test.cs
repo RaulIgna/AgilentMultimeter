@@ -3,6 +3,7 @@ using Agilent_34465A_LIB;
 using AutoTest;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -20,6 +21,12 @@ namespace AgilentMultimeter
             DMM.Run = true;
             if (NewMultimeter)
             {
+                string strPath = Environment.GetFolderPath(
+                         Environment.SpecialFolder.DesktopDirectory);
+                using (StreamWriter outputFile = new StreamWriter(Path.Combine(strPath, "WriteLines.txt")))
+                {
+                   outputFile.WriteLine(string.Format("{0:HH:mm:ss tt} ", DateTime.Now) + error.ToString());
+                }
                 error = Agilent_34465A_LIB.Agilent_34465A_LIB.Open(DMM);
             }
             else
@@ -59,7 +66,15 @@ namespace AgilentMultimeter
             {
                 while (DMM.Run)
                 {
-                    global::Agilent_34411A_LIB.Agilent_34411A_LIB.GetData(DMM, out var Data);
+                    double[] Data = new double[10];
+                    if (NewMultimeter)
+                    {
+                        global::Agilent_34465A_LIB.Agilent_34465A_LIB.GetData(DMM,out Data);
+                    }
+                    else
+                    {
+                        global::Agilent_34411A_LIB.Agilent_34411A_LIB.GetData(DMM,out Data);
+                    }
                     if (Data != null)
                     {
                         DMM.RawValue = Data[0];
