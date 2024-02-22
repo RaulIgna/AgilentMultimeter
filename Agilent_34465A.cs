@@ -245,7 +245,6 @@ namespace Agilent_34465A_LIB
                     return er;
                 }
 
-                DMM.Driver.Measurement.Initiate();
             }
             catch (Exception ex)
             {
@@ -267,6 +266,12 @@ namespace Agilent_34465A_LIB
             {
 
             }
+        }
+
+        public static void SendTrigger(DMMInterface DMM1)
+        {
+            var DMM = (DMM34465A)DMM1;
+            DMM.Driver.Measurement.SendSoftwareTrigger();
         }
 
         public static void GetData(DMMInterface DMM1, out double[] Data)

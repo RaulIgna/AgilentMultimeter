@@ -29,6 +29,8 @@ namespace Agilent_34411A_LIB
 
         public Agilent34410 Driver = new Agilent34410();
 
+       
+
         public DMM34410A(string lID)
         {
             ResourceName = "USB0::0x0957::0x0607::MY5301" + lID + "::0::INSTR";
@@ -308,6 +310,8 @@ namespace Agilent_34411A_LIB
             return new Error(true, "No Error");
 
         }
+
+        
 
 
         public static void Close(DMMInterface InterfaceDMM)
