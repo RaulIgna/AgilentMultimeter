@@ -283,7 +283,7 @@ namespace Agilent_34465A_LIB
             DMM.Driver.Measurement.Read(10);
 
             // Slow down
-            Thread.Sleep((int)(DMM.NPLC * 100));
+            Thread.Sleep((int)(DMM.NPLC));
 
             // Gets the total number of reading currently stored in reading memory
             dataPts = DMM.Driver.Measurement.ReadingCount;
