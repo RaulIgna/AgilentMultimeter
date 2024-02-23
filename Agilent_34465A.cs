@@ -29,7 +29,8 @@ namespace Agilent_34465A_LIB
 
         public DMM34465A(string lID)
         {
-            ResourceName = "USB0::0x2A8D::0x0101::MY6009" + lID + "::0::INSTR";
+            ResourceName = "USB0::0x2A8D::0x0101::MY6009" + lID + "::INSTR";
+            //ResourceName = "USB0::0x2A8D::0x0101::MY6009" + lID + "::0::INSTR";
             ID = lID;
             Range = 100;
             NPLC = 10;
@@ -38,7 +39,7 @@ namespace Agilent_34465A_LIB
         public void DMM_SetID(string text)
         {
             ID = text;
-            ResourceName = "USB0::0x2A8D::0x0101::MY6009" + ID + "::0::INSTR";
+            ResourceName = "USB0::0x2A8D::0x0101::MY6009" + ID + "::INSTR";
         }
 
         public void DMM_SelectAutoRange(int AutoZeroID)
