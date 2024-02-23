@@ -21,13 +21,18 @@ namespace AgilentMultimeter
             DMM.Run = true;
             if (NewMultimeter)
             {
-                string strPath = Environment.GetFolderPath(
-                         Environment.SpecialFolder.DesktopDirectory);
-                using (StreamWriter outputFile = new StreamWriter(Path.Combine(strPath, "WriteLines.txt")))
-                {
-                   outputFile.WriteLine(string.Format("{0:HH:mm:ss tt} ", DateTime.Now) + error.ToString());
-                }
                 error = Agilent_34465A_LIB.Agilent_34465A_LIB.Open(DMM);
+
+                if (!error.OK)
+                {
+
+                    string strPath = Environment.GetFolderPath(
+                            Environment.SpecialFolder.DesktopDirectory);
+                    using (StreamWriter outputFile = new StreamWriter(Path.Combine(strPath, "WriteLines.txt")))
+                    {
+                        outputFile.WriteLine(string.Format("{0:HH:mm:ss tt} ", DateTime.Now) + error.ToString());
+                    }
+                }
             }
             else
             {
