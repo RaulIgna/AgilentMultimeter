@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using AutoTest;
 using AgilentMultimeter;
 using Agilent.Agilent34410.Interop;
+using Ivi.Driver;
 
 namespace Agilent_34465A_LIB
 {
@@ -209,7 +210,7 @@ namespace Agilent_34465A_LIB
                 //    return er;
                 //}
 
-                DMM.Driver.Trigger.Source = Ag3446xTriggerSourceEnum.Ag3446xTriggerSourceExternal;
+                DMM.Driver.Trigger.Source = Ag3446xTriggerSourceEnum.Ag3446xTriggerSourceImmediate;
                 er = getError("Trigger.TriggerSource", DMM);
                 //if (!er.OK)
                 //{
@@ -218,7 +219,7 @@ namespace Agilent_34465A_LIB
 
 
 
-                DMM.Driver.Trigger.Count = 1;
+                DMM.Driver.Trigger.Count = 1000000;
                 er = getError("", DMM);
                 //if (!er.OK)
                 //{
@@ -233,7 +234,7 @@ namespace Agilent_34465A_LIB
                 //}
 
                 DMM.Driver.Trigger.SampleCount = 1;
-                er = getError("Trigger.SampleCount", DMM);
+                er = getError("Trigger.SampleCount", DMM);  
                 //if (!er.OK)
                 //{
                 //    return er;
@@ -294,6 +295,9 @@ namespace Agilent_34465A_LIB
             // If there is any data, read and remove the data
             // Otherwise, set Data to null
             Data = dataPts > 0 ? DMM.Driver.Measurement.RemoveReadings(dataPts) : null;
+
+           
+
         }
 
 
