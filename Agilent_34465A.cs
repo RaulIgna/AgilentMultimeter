@@ -248,7 +248,6 @@ namespace Agilent_34465A_LIB
                 {
                     return er;
                 }
-                DMM.Driver.Measurement.Initiate();
 
             }
             catch (Exception ex)
@@ -282,13 +281,13 @@ namespace Agilent_34465A_LIB
             // Initiate the measurement
             //Changes the state of the triggering system from the 'idle' state to the 'wait-for-trigger' state.
             //Measurements will begin when the specified trigger conditions are satisfied following execution of this method. Note that this method also clears the previous set of readings from memory.
-            //DMM.Driver.Measurement.Initiate();
+            DMM.Driver.Measurement.Initiate();
 
 
             //DMM.Driver.Measurement.Read(100);
 
             // Slow down
-            //Thread.Sleep((int)(DMM.NPLC * 100));
+            Thread.Sleep((int)(DMM.NPLC * 1000));
 
            // dataPts = DMM.Driver.Measurement.get_ReadingCount(Agilent34410MemoryTypeEnum.Agilent34410MemoryTypeReadingMemory);
 
