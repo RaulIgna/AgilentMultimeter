@@ -219,7 +219,7 @@ namespace Agilent_34465A_LIB
 
 
 
-                DMM.Driver.Trigger.Count = 0;
+                DMM.Driver.Trigger.Count = 3;
                 er = getError("", DMM);
 
                 if (!er.OK)
@@ -283,6 +283,7 @@ namespace Agilent_34465A_LIB
             //Measurements will begin when the specified trigger conditions are satisfied following execution of this method. Note that this method also clears the previous set of readings from memory.
             DMM.Driver.Measurement.Initiate();
 
+
             //DMM.Driver.Measurement.Read(100);
 
             // Slow down
@@ -297,7 +298,7 @@ namespace Agilent_34465A_LIB
             // Otherwise, set Data to null
             Data = dataPts > 0 ? DMM.Driver.Measurement.RemoveReadings(dataPts) : null;
 
-           
+             
 
         }
 
