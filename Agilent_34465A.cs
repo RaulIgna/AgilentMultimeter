@@ -164,90 +164,90 @@ namespace Agilent_34465A_LIB
                 DMM.Driver.DCVoltage.Configure(DMM.Range, 4.5);
 
                 er = getError("Configure(range, resolution)", DMM);
-                //if (!er.OK)
-                //{
-                //    return er;
-                //}
+                if (!er.OK)
+                {
+                    return er;
+                }
 
 
                 DMM.Driver.DCVoltage.NullEnabled = DMM.NullState;
 
                 er = getError("Null State", DMM);
-                //if (!er.OK)
-                //{
-                //    return er;
-                //}
+                if (!er.OK)
+                {
+                    return er;
+                }
 
                 DMM.Driver.DCVoltage.NullValue = DMM.NullValue;
 
                 er = getError("Null Value", DMM);
-                //if (!er.OK)
-                //{
-                //    return er;
-                //}
+                if (!er.OK)
+                {
+                    return er;
+                }
 
                 DMM.Driver.DCVoltage.ImpedanceAutoEnabled = DMM.InputImpedance;
 
                 er = getError("Input Impedance", DMM);
-                //if (!er.OK)
-                //{
-                //    return er;
-                //}
+                if (!er.OK)
+                {
+                    return er;
+                }
 
                 DMM.Driver.DCVoltage.AutoZero = DMM.AutoZero;
 
                 er = getError("AutoZero", DMM);
-                //if (!er.OK)
-                //{
-                //    return er;
-                //}
+                if (!er.OK)
+                {
+                    return er;
+                }
 
 
                 DMM.Driver.DCVoltage.NPLC = DMM.NPLC;
                 er = getError("DCVoltage.Aperture", DMM);
-                //if (!er.OK)
-                //{
-                //    return er;
-                //}
+                if (!er.OK)
+                {
+                    return er;
+                }
 
                 DMM.Driver.Trigger.Source = Ag3446xTriggerSourceEnum.Ag3446xTriggerSourceImmediate;
                 er = getError("Trigger.TriggerSource", DMM);
-                //if (!er.OK)
-                //{
-                //    return er;
-                //}
+                if (!er.OK)
+                {
+                    return er;
+                }
 
 
 
                 DMM.Driver.Trigger.Count = 0;
                 er = getError("", DMM);
 
-                //if (!er.OK)
-                //{
-                //    return er;
-                //}
+                if (!er.OK)
+                {
+                    return er;
+                }
 
                 DMM.Driver.Trigger.Delay = 0; //PrecisionTimeSpan.Zero;
                 er = getError("Trigger.TriggerDelay ", DMM);
-                //if (!er.OK)
-                //{
-                //    return er;
-                //}
+                if (!er.OK)
+                {
+                    return er;
+                }
 
                 DMM.Driver.Trigger.SampleCount = 1;
-                er = getError("Trigger.SampleCount", DMM);  
-                //if (!er.OK)
-                //{
-                //    return er;
-                //}
+                er = getError("Trigger.SampleCount", DMM);
+                if (!er.OK)
+                {
+                    return er;
+                }
 
 
                 DMM.Driver.Display.Mode = Ag3446xDisplayModeEnum.Ag3446xDisplayModeNumeric;
                 er = getError("DataFormat.DataFormat", DMM);
-                //if (!er.OK)
-                //{
-                //    return er;
-                //}
+                if (!er.OK)
+                {
+                    return er;
+                }
 
             }
             catch (Exception ex)
