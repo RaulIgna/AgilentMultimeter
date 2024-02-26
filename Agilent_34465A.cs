@@ -219,7 +219,7 @@ namespace Agilent_34465A_LIB
 
 
 
-                DMM.Driver.Trigger.Count = 3;
+                DMM.Driver.Trigger.Count = 1000;
                 er = getError("", DMM);
 
                 if (!er.OK)
