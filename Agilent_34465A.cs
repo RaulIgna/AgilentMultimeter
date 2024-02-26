@@ -281,7 +281,7 @@ namespace Agilent_34465A_LIB
             //Measurements will begin when the specified trigger conditions are satisfied following execution of this method. Note that this method also clears the previous set of readings from memory.
             //DMM.Driver.Measurement.Initiate();
 
-            DMM.Driver.Measurement.Read((int)DMM.NPLC * 100);
+            DMM.Driver.Measurement.Read(10000);
 
             // Slow down
             //Thread.Sleep((int)(DMM.NPLC * 100));
