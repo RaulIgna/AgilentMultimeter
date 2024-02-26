@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoTest;
 using AgilentMultimeter;
+using Agilent.Agilent34410.Interop;
 
 namespace Agilent_34465A_LIB
 {
@@ -278,12 +279,14 @@ namespace Agilent_34465A_LIB
             // Initiate the measurement
             //Changes the state of the triggering system from the 'idle' state to the 'wait-for-trigger' state.
             //Measurements will begin when the specified trigger conditions are satisfied following execution of this method. Note that this method also clears the previous set of readings from memory.
-            DMM.Driver.Measurement.Initiate();
+            //DMM.Driver.Measurement.Initiate();
 
-            //DMM.Driver.Measurement.Read((int)DMM.NPLC * 100);
+            DMM.Driver.Measurement.Read((int)DMM.NPLC * 100);
 
             // Slow down
-            Thread.Sleep((int)(DMM.NPLC * 100));
+            //Thread.Sleep((int)(DMM.NPLC * 100));
+
+           // dataPts = DMM.Driver.Measurement.get_ReadingCount(Agilent34410MemoryTypeEnum.Agilent34410MemoryTypeReadingMemory);
 
             // Gets the total number of reading currently stored in reading memory
             dataPts = DMM.Driver.Measurement.ReadingCount;
