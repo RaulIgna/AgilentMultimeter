@@ -37,11 +37,13 @@ namespace Agilent_34465A_LIB
             var list = GlobalResourceManager.Find();
             foreach(var item in list)
             {
+                Console.WriteLine(item);
                 if(item.EndsWith(lId + "::INSTR"))
                 {
                     return item;
                 }
             }
+            Console.WriteLine("returning null");
             return null;
         }
 
