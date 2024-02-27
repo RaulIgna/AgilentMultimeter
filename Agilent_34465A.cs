@@ -154,7 +154,13 @@ namespace Agilent_34465A_LIB
             try
             {
                 DMM.Driver = new Agilent.Ag3446x.Interop.Ag3446x();//(DMM.ResourceName, pIdQuery, pReset, pOptionString);
-                DMM.Driver.Initialize(DMM.ResourceName, pIdQuery, pReset, pOptionString);
+                try
+                {
+                    DMM.Driver.Initialize(DMM.ResourceName, pIdQuery, pReset, pOptionString);
+                }
+                catch {
+                    Console.WriteLine("Am ajuns aici");
+                }
                 er = getError("Initialize", DMM);
                 if (!er.OK)
                 {
