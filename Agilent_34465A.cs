@@ -10,6 +10,8 @@ using AgilentMultimeter;
 using Agilent.Agilent34410.Interop;
 using Ivi.Driver;
 using System.CodeDom;
+using Ivi.Visa;
+using System.Runtime.CompilerServices;
 
 namespace Agilent_34465A_LIB
 {
@@ -30,11 +32,23 @@ namespace Agilent_34465A_LIB
         public Thread Work { get; set; }
         public Agilent.Ag3446x.Interop.Ag3446x Driver { get; set; }
 
+        public static string GetId(string lId)
+        {
+            var list = GlobalResourceManager.Find();
+            foreach(var item in list)
+            {
+                if(item.EndsWith(lId + "::INSTR"))
+                {
+                    return item;
+                }
+            }
+            return null;
+        }
+
         public DMM34465A(string lID)
         {
-            ResourceName = "USB0::0x2A8D::0x0101::MY6009" + lID + "::INSTR";
+            ResourceName = GetId(lID);//"USB0::0x2A8D::0x0101::MY6009" + lID + "::INSTR";
             RawId = lID;
-                       //ResourceName = "USB0::0x2A8D::0x0101::MY6009" + lID + "::0::INSTR";
             ID = lID;
             Range = 100;
             NPLC = 10;
@@ -155,21 +169,22 @@ namespace Agilent_34465A_LIB
             try
             {
                 DMM.Driver = new Agilent.Ag3446x.Interop.Ag3446x();//(DMM.ResourceName, pIdQuery, pReset, pOptionString);
-                try
-                {
-                    DMM.Driver.Initialize(DMM.ResourceName, pIdQuery, pReset, pOptionString);
-                }
-                catch {
-                    //Console.WriteLine("Am ajuns aici");
-                    Console.WriteLine("Valoarea Raw este " + DMM.RawId);
-                    DMM.ResourceName = "USB0::0x2A8D::0x0101::MY6069" + DMM.RawId + "::INSTR";
-                    DMM.Driver.Initialize(DMM.ResourceName, pIdQuery, pReset, pOptionString);
-                    er = getError("Initialize", DMM);
-                    if (!er.OK)
-                    {
-                        return er;
-                    }
-                }
+                //try
+                //{
+                //    DMM.Driver.Initialize(DMM.ResourceName, pIdQuery, pReset, pOptionString);
+                //}
+                //catch {
+                //    //Console.WriteLine("Am ajuns aici");
+                //    Console.WriteLine("Valoarea Raw este " + DMM.RawId);
+                //    DMM.ResourceName = "USB0::0x2A8D::0x0101::MY6069" + DMM.RawId + "::INSTR";
+                //    DMM.Driver.Initialize(DMM.ResourceName, pIdQuery, pReset, pOptionString);
+                //    er = getError("Initialize", DMM);
+                //    if (!er.OK)
+                //    {
+                //        return er;
+                //    }
+                //}
+                DMM.Driver.Initialize(DMM.ResourceName, pIdQuery, pReset, pOptionString);
                 er = getError("Initialize", DMM);
                 if (!er.OK)
                 {

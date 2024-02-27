@@ -43,6 +43,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\IviProject\NewSolution\Agilent\bin\Release\Ivi.Driver.dll</HintPath>
     </Reference>
+    <Reference Include="Ivi.Visa">
+      <HintPath>..\..\..\..\..\Program Files (x86)\IVI Foundation\VISA\Microsoft.NET\Framework32\v2.0.50727\VISA.NET Shared Components 7.2.0\Ivi.Visa.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />

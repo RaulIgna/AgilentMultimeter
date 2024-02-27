@@ -12,3 +12,5 @@ C:\Users\ignar\Documents\Projects\AgilentMultimeter\obj\Release\AgilentMultimete
 C:\Users\ignar\Documents\Projects\AgilentMultimeter\obj\Release\AgilentMultimeter.csproj.CopyComplete
 C:\Users\ignar\Documents\Projects\AgilentMultimeter\obj\Release\AgilentMultimeter.dll
 C:\Users\ignar\Documents\Projects\AgilentMultimeter\obj\Release\AgilentMultimeter.pdb
+C:\Users\ignar\Documents\Projects\AgilentMultimeter\bin\Release\Ivi.Visa.dll
+C:\Users\ignar\Documents\Projects\AgilentMultimeter\bin\Release\Ivi.Visa.xml
