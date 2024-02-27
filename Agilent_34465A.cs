@@ -9,6 +9,7 @@ using AutoTest;
 using AgilentMultimeter;
 using Agilent.Agilent34410.Interop;
 using Ivi.Driver;
+using System.CodeDom;
 
 namespace Agilent_34465A_LIB
 {
@@ -159,21 +160,20 @@ namespace Agilent_34465A_LIB
                     DMM.Driver.Initialize(DMM.ResourceName, pIdQuery, pReset, pOptionString);
                 }
                 catch {
-                    Console.WriteLine("Am ajuns aici");
+                    //Console.WriteLine("Am ajuns aici");
+                    Console.WriteLine("Valoarea Raw este " + DMM.RawId);
+                    DMM.ResourceName = "USB0::0x2A8D::0x0101::MY6069" + DMM.RawId + "::INSTR";
+                    DMM.Driver.Initialize(DMM.ResourceName, pIdQuery, pReset, pOptionString);
+                    er = getError("Initialize", DMM);
+                    if (!er.OK)
+                    {
+                        return er;
+                    }
                 }
                 er = getError("Initialize", DMM);
                 if (!er.OK)
                 {
-                    // Try the other one
-                    DMM.ResourceName = "USB0::0x2A8D::0x0101::MY6069" + DMM.RawId + "::INSTR";
-                    DMM.Driver.Initialize(DMM.ResourceName, pIdQuery, pReset, pOptionString);
-                    er = getError("Initialize", DMM);
-                    if(!er.OK)
-                    {
-                        return er;
-                    }
-                    //return er;
-
+                    return er; 
                 }
 
                 //Resolution resolution = Resolution.Max;
