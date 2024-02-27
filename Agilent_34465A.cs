@@ -43,7 +43,6 @@ namespace Agilent_34465A_LIB
                     return item;
                 }
             }
-            Console.WriteLine("returning null");
             return null;
         }
 
@@ -171,21 +170,6 @@ namespace Agilent_34465A_LIB
             try
             {
                 DMM.Driver = new Agilent.Ag3446x.Interop.Ag3446x();//(DMM.ResourceName, pIdQuery, pReset, pOptionString);
-                //try
-                //{
-                //    DMM.Driver.Initialize(DMM.ResourceName, pIdQuery, pReset, pOptionString);
-                //}
-                //catch {
-                //    //Console.WriteLine("Am ajuns aici");
-                //    Console.WriteLine("Valoarea Raw este " + DMM.RawId);
-                //    DMM.ResourceName = "USB0::0x2A8D::0x0101::MY6069" + DMM.RawId + "::INSTR";
-                //    DMM.Driver.Initialize(DMM.ResourceName, pIdQuery, pReset, pOptionString);
-                //    er = getError("Initialize", DMM);
-                //    if (!er.OK)
-                //    {
-                //        return er;
-                //    }
-                //}
                 DMM.Driver.Initialize(DMM.ResourceName, pIdQuery, pReset, pOptionString);
                 er = getError("Initialize", DMM);
                 if (!er.OK)
