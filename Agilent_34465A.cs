@@ -287,7 +287,7 @@ namespace Agilent_34465A_LIB
             //DMM.Driver.Measurement.Read(100);
 
             // Slow down
-            //Thread.Sleep((int)(DMM.NPLC * 1000));
+            Thread.Sleep((int)(DMM.NPLC * 1000));
 
            // dataPts = DMM.Driver.Measurement.get_ReadingCount(Agilent34410MemoryTypeEnum.Agilent34410MemoryTypeReadingMemory);
 
