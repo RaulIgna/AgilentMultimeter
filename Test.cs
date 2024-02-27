@@ -71,7 +71,7 @@ namespace AgilentMultimeter
             {
                 while (DMM.Run)
                 {
-                    double[] Data = new double[10];
+                    double? Data = null;
                     if (NewMultimeter)
                     {
                         global::Agilent_34465A_LIB.Agilent_34465A_LIB.GetData(DMM,out Data);
@@ -80,9 +80,14 @@ namespace AgilentMultimeter
                     {
                         global::Agilent_34411A_LIB.Agilent_34411A_LIB.GetData(DMM,out Data);
                     }
-                    if (Data != null)
+                    try
                     {
-                        DMM.RawValue = Data[0];
+                        DMM.RawValue = (double)Data;
+                    }
+                    catch(Exception ex)
+                    {
+                        // TODO: Add error handling
+                        Console.WriteLine(ex);
                     }
                 }
             }

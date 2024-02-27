@@ -329,7 +329,7 @@ namespace Agilent_34411A_LIB
 
         }
 
-        public static void GetData(DMMInterface InterfaceDMM, out double[] Data)
+        public static void GetData(DMMInterface InterfaceDMM, out double? Data)
         {
             var DMM = (DMM34410A)InterfaceDMM;
             int dataPts;
@@ -348,7 +348,7 @@ namespace Agilent_34411A_LIB
             if (dataPts > 0)//if We have data points, lets read them out
             {
                 //The readings are erased from memory starting with the oldest reading first. The purpose of this method is to allow you to periodically remove readings from memory during a series of measurements to avoid a reading memory overflow. If the specified number of readings are not yet present in memory when this routine is called, an instrument error will result and the data fetch will fail.
-                Data = DMM.Driver.Measurement.RemoveReadings(dataPts);
+                Data = DMM.Driver.Measurement.RemoveReadings(dataPts)[0];
             }
             else
             {

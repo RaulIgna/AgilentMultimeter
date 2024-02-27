@@ -219,7 +219,7 @@ namespace Agilent_34465A_LIB
 
 
 
-                DMM.Driver.Trigger.Count = 10;
+                DMM.Driver.Trigger.Count = 0;
                 er = getError("", DMM);
 
                 if (!er.OK)
@@ -273,7 +273,7 @@ namespace Agilent_34465A_LIB
         }
 
 
-        public static void GetData(DMMInterface DMM1, out double[] Data)
+        public static void GetData(DMMInterface DMM1, out double? Data)
         {
             var DMM = (DMM34465A)DMM1;
             int dataPts;
@@ -287,7 +287,7 @@ namespace Agilent_34465A_LIB
             //DMM.Driver.Measurement.Read(100);
 
             // Slow down
-            Thread.Sleep((int)(DMM.NPLC * 1000));
+            //Thread.Sleep((int)(DMM.NPLC * 1000));
 
            // dataPts = DMM.Driver.Measurement.get_ReadingCount(Agilent34410MemoryTypeEnum.Agilent34410MemoryTypeReadingMemory);
 
@@ -296,8 +296,14 @@ namespace Agilent_34465A_LIB
 
             // If there is any data, read and remove the data
             // Otherwise, set Data to null
-            Data = dataPts > 0 ? DMM.Driver.Measurement.RemoveReadings(dataPts) : null;
-
+            if(dataPts > 0)
+            {
+                Data = DMM.Driver.Measurement.RemoveReadings(dataPts)[0];
+            }
+            else
+            {
+                Data = null;
+            }
              
 
         }
