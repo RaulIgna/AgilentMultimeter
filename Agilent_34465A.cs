@@ -25,14 +25,15 @@ namespace Agilent_34465A_LIB
         public double Constant { get; set; }
         public double RawValue { get; set; }
         public bool Run { get; set; }
-
+        public string RawId { get; set; }
         public Thread Work { get; set; }
         public Agilent.Ag3446x.Interop.Ag3446x Driver { get; set; }
 
         public DMM34465A(string lID)
         {
             ResourceName = "USB0::0x2A8D::0x0101::MY6009" + lID + "::INSTR";
-            //ResourceName = "USB0::0x2A8D::0x0101::MY6009" + lID + "::0::INSTR";
+            RawId = lID;
+                       //ResourceName = "USB0::0x2A8D::0x0101::MY6009" + lID + "::0::INSTR";
             ID = lID;
             Range = 100;
             NPLC = 10;
@@ -155,10 +156,19 @@ namespace Agilent_34465A_LIB
                 DMM.Driver = new Agilent.Ag3446x.Interop.Ag3446x();//(DMM.ResourceName, pIdQuery, pReset, pOptionString);
                 DMM.Driver.Initialize(DMM.ResourceName, pIdQuery, pReset, pOptionString);
                 er = getError("Initialize", DMM);
-                //if (!er.OK)
-                //{
-                //    return er;
-                //}
+                if (!er.OK)
+                {
+                    // Try the other one
+                    DMM.ResourceName = "USB0::0x2A8D::0x0101::MY6069" + DMM.RawId + "::INSTR";
+                    DMM.Driver.Initialize(DMM.ResourceName, pIdQuery, pReset, pOptionString);
+                    er = getError("Initialize", DMM);
+                    if(!er.OK)
+                    {
+                        return er;
+                    }
+                    //return er;
+
+                }
 
                 //Resolution resolution = Resolution.Max;
                 DMM.Driver.DCVoltage.Configure(DMM.Range, 4.5);
