@@ -38,7 +38,7 @@ namespace Agilent_34465A_LIB
             foreach(var item in list)
             {
                 Console.WriteLine(item);
-                if(item.EndsWith(lId + "::INSTR"))
+                if(item.EndsWith(lId + "::0::INSTR"))
                 {
                     return item;
                 }
