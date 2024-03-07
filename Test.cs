@@ -19,24 +19,10 @@ namespace AgilentMultimeter
 
             Error error = new Error("TransactKline: Nothing Received from ECU");
             DMM.Run = true;
-            if (NewMultimeter)
+            error = AgilentInterface.Open(DMM, NewMultimeter);
+            if(!error.OK)
             {
-                error = Agilent_34465A_LIB.Agilent_34465A_LIB.Open(DMM);
-
-                if (!error.OK)
-                {
-
-                    string strPath = Environment.GetFolderPath(
-                            Environment.SpecialFolder.DesktopDirectory);
-                    using (StreamWriter outputFile = new StreamWriter(Path.Combine(strPath, "WriteLines.txt")))
-                    {
-                        outputFile.WriteLine(string.Format("{0:HH:mm:ss tt} ", DateTime.Now) + error.ToString());
-                    }
-                }
-            }
-            else
-            {
-                error = Agilent_34411A_LIB.Agilent_34411A_LIB.Open(DMM);
+                return error;
             }
             DMM.Work = new Thread((ThreadStart)delegate
             {
@@ -72,14 +58,15 @@ namespace AgilentMultimeter
                 while (DMM.Run)
                 {
                     double? Data = null;
-                    if (NewMultimeter)
-                    {
-                        global::Agilent_34465A_LIB.Agilent_34465A_LIB.GetData(DMM,out Data);
-                    }
-                    else
-                    {
-                        global::Agilent_34411A_LIB.Agilent_34411A_LIB.GetData(DMM,out Data);
-                    }
+                    //if (NewMultimeter)
+                    //{
+                    //    global::Agilent_34465A_LIB.Agilent_34465A_LIB.GetData(DMM,out Data);
+                    //}
+                    //else
+                    //{
+                    //    global::Agilent_34411A_LIB.Agilent_34411A_LIB.GetData(DMM,out Data);
+                    //}
+                    AgilentInterface.GetData(DMM, NewMultimeter, out Data );
                     try
                     {
                         DMM.RawValue = (double)Data;

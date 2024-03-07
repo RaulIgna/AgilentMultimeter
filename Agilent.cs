@@ -29,12 +29,52 @@ namespace AgilentMultimeter
         void DMM_SelectNPLC(int SelectedIndex);
     }
 
-    //public interface AgilentInterface
-    //{
-    //    Error Open(DMMInterface inter);
-    //    //void Close(DMMInterface DMM1);
-    //    void GetData(DMMInterface DMM1, out double[] Data);
-    //    Error getError(string title, DMMInterface driver1);
-    //}
+    public class AgilentInterface
+    {
+        public static Error Open(DMMInterface inter, bool IsNewMultimeter)
+        {
+            if(IsNewMultimeter)
+            {
+                return Agilent_34465A_LIB.Agilent_34465A_LIB.Open(inter);
+            }
+            else
+            {
+                return Agilent_34411A_LIB.Agilent_34411A_LIB.Open(inter);
+            }
+        }
+        public static void Close(DMMInterface DMM1, bool IsNewMultimeter)
+        {
+            if(IsNewMultimeter)
+            {
+                Agilent_34465A_LIB.Agilent_34465A_LIB.Close(DMM1);
+            }
+            else
+            {
+                Agilent_34411A_LIB.Agilent_34411A_LIB.Close(DMM1);
+            }
+        }
+        public static void GetData(DMMInterface DMM1, bool IsNewMultimeter,out double? Data)
+        {
+            if(IsNewMultimeter)
+            {
+                Agilent_34465A_LIB.Agilent_34465A_LIB.GetData(DMM1,out Data);
+            }
+            else
+            {
+                Agilent_34411A_LIB.Agilent_34411A_LIB.GetData(DMM1, out Data);
+            }
+        }
+        public static Error getError(string title, DMMInterface driver1,bool IsNewMultimeter)
+        {
+            if(IsNewMultimeter)
+            {
+                return Agilent_34465A_LIB.Agilent_34465A_LIB.getError(title, driver1);
+            }
+            else
+            {
+                return Agilent_34411A_LIB.Agilent_34411A_LIB.getError(title, driver1);
+            }
+        }
+    }
 
 }
