@@ -61,6 +61,7 @@
     <Compile Include="Agilent_34465A.cs" />
     <Compile Include="AutoTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RP795A.cs" />
     <Compile Include="Test.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -73,10 +74,28 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+    <COMReference Include="AgAPSLib">
+      <Guid>{FD7CB3D1-BC53-4B40-8777-5772B1BEE357}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
     <COMReference Include="Agilent34410Lib">
       <Guid>{7E65C8D3-046F-42D3-BA3F-4C7C31925DF5}</Guid>
       <VersionMajor>1</VersionMajor>
       <VersionMinor>1</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="IviDCPwrLib">
+      <Guid>{47ED5121-A398-11D4-BA58-000064657374}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>primary</WrapperTool>
       <Isolated>False</Isolated>
