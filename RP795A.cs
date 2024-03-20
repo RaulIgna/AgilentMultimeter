@@ -71,5 +71,18 @@ namespace AgilentMultimeter
 
             return new Error(true, "No error");
         }
+
+        static List<string> CheckForErrors(RP795A RP)
+        {
+            int errorNum = -1;
+            string errorMsg = null;
+            List<string> ret = new List<string>();
+            while(errorNum != 0)
+            {
+                RP.Driver.Utility.ErrorQuery(ref errorNum, ref errorMsg);
+                ret.Add(errorMsg);
+            }
+            return ret;
+        }
     }
 }
