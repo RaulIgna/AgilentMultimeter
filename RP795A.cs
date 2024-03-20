@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Agilent.Ag3446x.Interop;
 using Agilent.AgAPS.Interop;
 using AutoTest;
+using Ivi.Driver;
 
 namespace AgilentMultimeter
 {
@@ -18,15 +19,19 @@ namespace AgilentMultimeter
         public double VoltageLimit { get; set; }
         public double VoltageLevel { get; set; }
         public double CurrentLevel { get; set; }
-
+        public AgAPSRegulationModeEnum RegulationMode { get; set; }
         public Agilent.AgAPS.Interop.AgAPS Driver { get; set; }
     
         public RP795A(string lID)
         {
             ResourceName = "USB0::0x2A8D::0x2802::MY6300" + lID + "::0::INSTR";
             ID = lID;
-
+            RegulationMode = AgAPSRegulationModeEnum.AgAPSRegulationModeVoltageSource;
+            VoltageLevel = 5;
+            CurrentLevel = 0.1;
         }
+
+        
     }
 
     public class Keysight_7945A_LIB
@@ -53,10 +58,13 @@ namespace AgilentMultimeter
                 RP.Driver = new Agilent.AgAPS.Interop.AgAPS();
                 RP.Driver.Initialize(RP.ResourceName,pIdQuery,pReset,pOptionString);
 
+                RP.Driver.Output.RegulationMode = RP.RegulationMode;
+
                 RP.Driver.Output.Voltage.Level = RP.VoltageLevel;
                 RP.Driver.Output.Current.Level = RP.CurrentLevel;
 
-
+                RP.Driver.Output.Enabled = true;
+                RP.Driver.System.WaitForOperationComplete(1000);
             }
             catch { }
 
