@@ -8,6 +8,7 @@ using Agilent.Ag3446x.Interop;
 using Agilent.AgAPS.Interop;
 using AutoTest;
 using Ivi.Driver;
+using Ivi.Visa;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace AgilentMultimeter
@@ -43,7 +44,7 @@ namespace AgilentMultimeter
         public static Error Open(RP795A RP)
         {
 
-            string pOptionString = "Cache=false, InterchangeCheck=false, QueryInstrStatus=true,Simulate=true";
+            string pOptionString = "Cache=false, InterchangeCheck=false, QueryInstrStatus=true";
             bool pIdQuery = true;
             bool pReset = true;
 
@@ -119,6 +120,33 @@ namespace AgilentMultimeter
             Timer.Start();
         }
 
+        static public void SetRampCurrent(RP795A RP, double V0, double V1, double Time)
+        {
+            if (RP.Driver.Output.Current.Level - V0 > 0.01)
+            {
+                // Make a smooth transition from V0 
+                SetRampCurrent(RP, RP.Driver.Output.Current.Level, V0, 200);
+            }
+            RP.Driver.Output.Current.Level = V0;
+            int IterationNumber = (int)(Time / 100); // Number of iteration ( time / how long 1 iteration should last)
+            double IterationValue = (V1 - V0) / IterationNumber;
+            int Iterations = 0;
+
+            var Timer = new System.Timers.Timer();
+            Timer.Elapsed += (sender, e) =>
+            {
+                RP.Driver.Output.Current.Level += IterationValue;
+                Iterations++;
+
+                if (Iterations == IterationNumber)
+                {
+                    Timer.Dispose();
+                }
+            };
+            Timer.Interval = 100;
+            Timer.Start();
+        }
+
         static List<string> CheckForErrors(RP795A RP)
         {
             int errorNum = -1;
@@ -146,6 +174,18 @@ namespace AgilentMultimeter
         {
             RP.Driver.Close();
             RP.Driver = null;
+        }
+
+        public static void GetConnectedDevices(out string[] Devices)
+        {
+            IEnumerable<string> enums = GlobalResourceManager.Find("USB0::0x2A8D::0x2802::MY630");
+            Devices = new string[enums.Count()];
+            for (int i = 0; i < Devices.Length; i++)
+            {
+                string deviceid = enums.ElementAt(i);
+                string four = deviceid.Substring(deviceid.IndexOf("MY") + 6, 4);
+                Devices[i] = four;
+            }
         }
     }
 }
