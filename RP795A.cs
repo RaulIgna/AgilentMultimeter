@@ -192,13 +192,14 @@ namespace AgilentMultimeter
 
         public static void GetConnectedDevices(out string[] Devices)
         {
-            IEnumerable<string> enums = GlobalResourceManager.Find("USB0::0x2A8D::0x2802::MY630");
+            IEnumerable<string> enums = GlobalResourceManager.Find("USB0::10893::10242?*INSTR");
             Devices = new string[enums.Count()];
-            for (int i = 0; i < Devices.Length; i++)
+            int i = 0;
+            foreach (var item in enums)
             {
-                string deviceid = enums.ElementAt(i);
-                string four = deviceid.Substring(deviceid.IndexOf("MY") + 6, 4);
-                Devices[i] = four;
+               
+                Devices[i] = item.Substring(item.IndexOf("::0") - 4, 4);
+                i++;
             }
         }
     }
