@@ -176,6 +176,20 @@ namespace AgilentMultimeter
             RP.Driver = null;
         }
 
+        public static void SetVoltageLimit(RP795A RP, double Voltage)
+        {
+            RP.Driver.Output.Voltage.PositiveLimit = Voltage;
+        }
+        public static void SetCurrentLimitMax(RP795A RP, double Current)
+        {
+            RP.Driver.Output.Current.PositiveLimit = Current;
+        }
+
+        public static void SetCurrentLimitMin(RP795A RP, double Current)
+        {
+            RP.Driver.Output.Current.NegativeLimit = Current;
+        }
+
         public static void GetConnectedDevices(out string[] Devices)
         {
             IEnumerable<string> enums = GlobalResourceManager.Find("USB0::0x2A8D::0x2802::MY630");
