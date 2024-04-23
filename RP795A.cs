@@ -11,6 +11,7 @@ using Ivi.Driver;
 using System.IO;
 using Ivi.Visa;
 using static System.Net.Mime.MediaTypeNames;
+using System.Diagnostics;
 
 namespace AgilentMultimeter
 {
@@ -65,7 +66,7 @@ namespace AgilentMultimeter
                 RP.Driver.Output.RegulationMode = RP.RegulationMode;
 
                 RP.Driver.Output.Voltage.Level = RP.VoltageLevel;
-                RP.Driver.Output.Current.Level = RP.CurrentLevel;
+             //   RP.Driver.Output.Current.Level = RP.CurrentLevel;
 
                 RP.Driver.Output.Enabled = true;
                 RP.Driver.System.WaitForOperationComplete(1000);
@@ -135,6 +136,15 @@ namespace AgilentMultimeter
                 SetRampCurrent(RP, RP.Driver.Output.Current.Level, V0, 200);
             }
             RP.Driver.Output.Current.Level = V0;
+            int errorNum = -1;
+            string errorMsg = null;
+            Console.WriteLine();
+            while (errorNum != 0)
+            {
+                RP.Driver.Utility.ErrorQuery(ref errorNum, ref errorMsg);
+                Debug.Assert(false, errorMsg);
+            }
+        
             int IterationNumber = (int)(Time / 100); // Number of iteration ( time / how long 1 iteration should last)
             double IterationValue = (V1 - V0) / IterationNumber;
             int Iterations = 0;
