@@ -8,6 +8,7 @@ using Agilent.Ag3446x.Interop;
 using Agilent.AgAPS.Interop;
 using AutoTest;
 using Ivi.Driver;
+using System.IO;
 using Ivi.Visa;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -109,11 +110,17 @@ namespace AgilentMultimeter
             Timer.Elapsed += (sender, e) =>
             {
                 RP.Driver.Output.Voltage.Level += IterationValue;
+                string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                string filePath = Path.Combine(desktopPath, "test.txt");
+               var errors =  CheckForErrors(RP);
+                foreach(var error in errors ) { File.WriteAllText(filePath, error); }
+                
                 Iterations++;
 
                 if (Iterations == IterationNumber)
                 {
                     Timer.Dispose();
+
                 }
             };
             Timer.Interval = 100;
@@ -147,7 +154,7 @@ namespace AgilentMultimeter
             Timer.Start();
         }
 
-        static List<string> CheckForErrors(RP795A RP)
+        static public  List<string> CheckForErrors(RP795A RP)
         {
             int errorNum = -1;
             string errorMsg = null;
@@ -192,7 +199,8 @@ namespace AgilentMultimeter
 
         public static void GetConnectedDevices(out string[] Devices)
         {
-            IEnumerable<string> enums = GlobalResourceManager.Find("USB0::10893::10242?*INSTR");
+          //  IEnumerable<string> enums = GlobalResourceManager.Find("USB0::10893::10242?*INSTR");
+            var enums = GlobalResourceManager.Find("USB0::10893::10242?*INSTR");
             Devices = new string[enums.Count()];
             int i = 0;
             foreach (var item in enums)
