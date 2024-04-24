@@ -97,10 +97,13 @@ namespace AgilentMultimeter
         // Increments the voltage from V0, to V1, in an interval of Time milliseconds
         static public void SetRampVoltage(RP795A RP, double V0, double V1, double Time)
         {
-            if(RP.Driver.Output.Voltage.Level - V0 > 0.01)
+            if(RP.Driver.Output.Voltage.Level - V0 > 1)
             {
                 // Make a smooth transition from V0 
-                SetRampVoltage(RP, RP.Driver.Output.Voltage.Level, V0, 200);
+               double diff = RP.Driver.Output.Voltage.Level - V0;
+               double half = diff / 2;
+               SetVoltage(RP,RP.Driver.Output.Voltage.Level + half);
+               SetVoltage(RP,RP.Driver.Output.Voltage.Level + half);
             }
             RP.Driver.Output.Voltage.Level = V0;
             int IterationNumber = (int)(Time / 100); // Number of iteration ( time / how long 1 iteration should last)
@@ -111,11 +114,7 @@ namespace AgilentMultimeter
             Timer.Elapsed += (sender, e) =>
             {
                 RP.Driver.Output.Voltage.Level += IterationValue;
-                string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                string filePath = Path.Combine(desktopPath, "test.txt");
-               var errors =  CheckForErrors(RP);
-                foreach(var error in errors ) { File.WriteAllText(filePath, error); }
-                
+                RP.Driver.System.WaitForOperationComplete(100);
                 Iterations++;
 
                 if (Iterations == IterationNumber)
@@ -130,10 +129,13 @@ namespace AgilentMultimeter
 
         static public void SetRampCurrent(RP795A RP, double V0, double V1, double Time)
         {
-            if (RP.Driver.Output.Current.Level - V0 > 0.01)
+            if (RP.Driver.Output.Current.Level - V0 > 1)
             {
                 // Make a smooth transition from V0 
-                SetRampCurrent(RP, RP.Driver.Output.Current.Level, V0, 200);
+                double diff = RP.Driver.Output.Current.Level - V0;
+                double half = diff / 2;
+                SetCurrent(RP, RP.Driver.Output.Current.Level + half);
+                SetCurrent(RP, RP.Driver.Output.Current.Level + half);
             }
             RP.Driver.Output.Current.Level = V0;
             int errorNum = -1;
@@ -180,11 +182,13 @@ namespace AgilentMultimeter
         static public void SetVoltage(RP795A RP, double Voltage)
         {
             RP.Driver.Output.Voltage.Level = Voltage;
+            RP.Driver.System.WaitForOperationComplete(100);
         }
 
         static public void SetCurrent(RP795A RP, double Current)
         {
             RP.Driver.Output.Current.Level = Current;
+            RP.Driver.System.WaitForOperationComplete(100);
         }
 
         static public void CloseDriver(RP795A RP)
@@ -219,6 +223,12 @@ namespace AgilentMultimeter
                 Devices[i] = item.Substring(item.IndexOf("::0") - 4, 4);
                 i++;
             }
+        }
+
+        public static void SetRegulationMode(RP795A RP, int mode)
+        {
+
+            RP.Driver.Output.RegulationMode = (AgAPSRegulationModeEnum)mode;
         }
     }
 }
