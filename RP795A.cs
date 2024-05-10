@@ -68,7 +68,7 @@ namespace AgilentMultimeter
                 RP.Driver.Output.Voltage.Level = RP.VoltageLevel;
              //   RP.Driver.Output.Current.Level = RP.CurrentLevel;
 
-                RP.Driver.Output.Enabled = true;
+              //  RP.Driver.Output.Enabled = true;
                 RP.Driver.System.WaitForOperationComplete(1000);
             }
             catch (Exception ex)
@@ -97,7 +97,7 @@ namespace AgilentMultimeter
         // Increments the voltage from V0, to V1, in an interval of Time milliseconds
         static public void SetRampVoltage(RP795A RP, double V0, double V1, double Time)
         {
-            if(RP.Driver.Output.Voltage.Level - V0 > 1)
+            if(Math.Abs(RP.Driver.Output.Voltage.Level - V0) > 0.1)
             {
                 // Make a smooth transition from V0 
                double diff = RP.Driver.Output.Voltage.Level - V0;
@@ -114,7 +114,6 @@ namespace AgilentMultimeter
             Timer.Elapsed += (sender, e) =>
             {
                 RP.Driver.Output.Voltage.Level += IterationValue;
-                RP.Driver.System.WaitForOperationComplete(100);
                 Iterations++;
 
                 if (Iterations == IterationNumber)
@@ -127,9 +126,19 @@ namespace AgilentMultimeter
             Timer.Start();
         }
 
+        static public void SetOutput(RP795A RP, bool enabled)
+        {
+            RP.Driver.Output.Enabled = enabled;
+        }
+
+        static public bool GetOutput(RP795A RP)
+        {
+            return RP.Driver.Output.Enabled;
+        }
+
         static public void SetRampCurrent(RP795A RP, double V0, double V1, double Time)
         {
-            if (RP.Driver.Output.Current.Level - V0 > 1)
+            if (Math.Abs(RP.Driver.Output.Current.Level - V0) > 0.1)
             {
                 // Make a smooth transition from V0 
                 double diff = RP.Driver.Output.Current.Level - V0;
@@ -175,13 +184,13 @@ namespace AgilentMultimeter
         static public void SetVoltage(RP795A RP, double Voltage)
         {
             RP.Driver.Output.Voltage.Level = Voltage;
-            RP.Driver.System.WaitForOperationComplete(100);
+        //    RP.Driver.System.WaitForOperationComplete(100);
         }
 
         static public void SetCurrent(RP795A RP, double Current)
         {
             RP.Driver.Output.Current.Level = Current;
-            RP.Driver.System.WaitForOperationComplete(100);
+       //     RP.Driver.System.WaitForOperationComplete(100);
         }
 
         static public void CloseDriver(RP795A RP)
