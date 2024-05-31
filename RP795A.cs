@@ -29,7 +29,16 @@ namespace AgilentMultimeter
 
         public RP795A(string lID)
         {
-            ResourceName = "USB0::0x2A8D::0x2802::MY6300" + lID + "::0::INSTR";
+            Keysight_7945A_LIB.GetConnectedDevices(out string[] Devices, out string[] FullName);
+            string correctid = "";
+            foreach(string device in FullName)
+            {
+                if(device.Contains(lID + "::INSTR"))
+                {
+                    correctid = device;
+                }
+            }
+            ResourceName = correctid;//Keysight_7945A_LIB.GetConnectedDevices() //"USB0::0x2A8D::0x2802::MY5800" + lID + "::0::INSTR";
             ID = lID;
             RegulationMode = AgAPSRegulationModeEnum.AgAPSRegulationModeVoltageSource;
             VoltageLevel = 5;
@@ -46,7 +55,7 @@ namespace AgilentMultimeter
         public static Error Open(RP795A RP)
         {
 
-            string pOptionString = "Cache=false, InterchangeCheck=false, QueryInstrStatus=true";
+            string pOptionString = "Cache=false, InterchangeCheck=false, QueryInstrStatus=true, Simulate=false";
             bool pIdQuery = true;
             bool pReset = true;
 
@@ -65,7 +74,7 @@ namespace AgilentMultimeter
 
                 RP.Driver.Output.RegulationMode = RP.RegulationMode;
 
-                RP.Driver.Output.Voltage.Level = RP.VoltageLevel;
+             //   RP.Driver.Output.Voltage.Level = RP.VoltageLevel;
              //   RP.Driver.Output.Current.Level = RP.CurrentLevel;
 
               //  RP.Driver.Output.Enabled = true;
@@ -206,23 +215,26 @@ namespace AgilentMultimeter
         public static void SetCurrentLimitMax(RP795A RP, double Current)
         {
             RP.Driver.Output.Current.PositiveLimit = Current;
-        }
+        } 
 
         public static void SetCurrentLimitMin(RP795A RP, double Current)
         {
             RP.Driver.Output.Current.NegativeLimit = Current;
         }
 
-        public static void GetConnectedDevices(out string[] Devices)
+        public static void GetConnectedDevices(out string[] Devices, out string[] FullNames)
         {
           //  IEnumerable<string> enums = GlobalResourceManager.Find("USB0::10893::10242?*INSTR");
-            var enums = GlobalResourceManager.Find("USB0::10893::10242?*INSTR");
+            var enums = GlobalResourceManager.Find();
+           // var enums = GlobalResourceManager.Find("USB0::10893::10242?*INSTR");
             Devices = new string[enums.Count()];
+            FullNames = new string[enums.Count()];
             int i = 0;
             foreach (var item in enums)
             {
                
-                Devices[i] = item.Substring(item.IndexOf("::0") - 4, 4);
+                Devices[i] = item.Substring(item.IndexOf("::INSTR") - 4, 4);
+                FullNames[i] = item;
                 i++;
             }
         }
