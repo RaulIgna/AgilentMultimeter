@@ -29,16 +29,7 @@ namespace AgilentMultimeter
 
         public RP795A(string lID)
         {
-            Keysight_7945A_LIB.GetConnectedDevices(out string[] Devices, out string[] FullName);
-            string correctid = "";
-            foreach(string device in FullName)
-            {
-                if(device.Contains(lID + "::INSTR"))
-                {
-                    correctid = device;
-                }
-            }
-            ResourceName = correctid;//Keysight_7945A_LIB.GetConnectedDevices() //"USB0::0x2A8D::0x2802::MY5800" + lID + "::0::INSTR";
+            ResourceName = "USB0::0x2A8D::0x2802::MY6300" + lID + "::0::INSTR";
             ID = lID;
             RegulationMode = AgAPSRegulationModeEnum.AgAPSRegulationModeVoltageSource;
             VoltageLevel = 5;
@@ -55,7 +46,7 @@ namespace AgilentMultimeter
         public static Error Open(RP795A RP)
         {
 
-            string pOptionString = "Cache=false, InterchangeCheck=false, QueryInstrStatus=true, Simulate=false";
+            string pOptionString = "Cache=false, InterchangeCheck=false, QueryInstrStatus=true";
             bool pIdQuery = true;
             bool pReset = true;
 
@@ -74,10 +65,10 @@ namespace AgilentMultimeter
 
                 RP.Driver.Output.RegulationMode = RP.RegulationMode;
 
-             //   RP.Driver.Output.Voltage.Level = RP.VoltageLevel;
-             //   RP.Driver.Output.Current.Level = RP.CurrentLevel;
+                RP.Driver.Output.Voltage.Level = RP.VoltageLevel;
+                //   RP.Driver.Output.Current.Level = RP.CurrentLevel;
 
-              //  RP.Driver.Output.Enabled = true;
+                //  RP.Driver.Output.Enabled = true;
                 RP.Driver.System.WaitForOperationComplete(1000);
             }
             catch (Exception ex)
@@ -104,18 +95,19 @@ namespace AgilentMultimeter
         }
 
         // Increments the voltage from V0, to V1, in an interval of Time milliseconds
-        static public void SetRampVoltage(RP795A RP, double V0, double V1, double Time)
+        static public void SetRampVoltage(RP795A RP, double V0, double V1, double Time, bool seconds)
         {
-            if(Math.Abs(RP.Driver.Output.Voltage.Level - V0) > 0.1)
+            if (Math.Abs(RP.Driver.Output.Voltage.Level - V0) > 0.1)
             {
                 // Make a smooth transition from V0 
-               double diff = RP.Driver.Output.Voltage.Level - V0;
-               double half = diff / 2;
-               SetVoltage(RP,RP.Driver.Output.Voltage.Level + half);
-               SetVoltage(RP,RP.Driver.Output.Voltage.Level + half);
+                double diff = RP.Driver.Output.Voltage.Level - V0;
+                double half = diff / 2;
+                SetVoltage(RP, RP.Driver.Output.Voltage.Level + half);
+                SetVoltage(RP, RP.Driver.Output.Voltage.Level + half);
             }
             RP.Driver.Output.Voltage.Level = V0;
-            int IterationNumber = (int)(Time / 100); // Number of iteration ( time / how long 1 iteration should last)
+            // factor 1 if 
+            int IterationNumber = (int)((seconds ? (Time * 1000) : Time) / 100); // Number of iteration ( time / how long 1 iteration should last)
             double IterationValue = (V1 - V0) / IterationNumber;
             int Iterations = 0;
 
@@ -145,7 +137,7 @@ namespace AgilentMultimeter
             return RP.Driver.Output.Enabled;
         }
 
-        static public void SetRampCurrent(RP795A RP, double V0, double V1, double Time)
+        static public void SetRampCurrent(RP795A RP, double V0, double V1, double Time, bool seconds)
         {
             if (Math.Abs(RP.Driver.Output.Current.Level - V0) > 0.1)
             {
@@ -156,9 +148,9 @@ namespace AgilentMultimeter
                 SetCurrent(RP, RP.Driver.Output.Current.Level + half);
             }
             RP.Driver.Output.Current.Level = V0;
-           
-        
-            int IterationNumber = (int)(Time / 100); // Number of iteration ( time / how long 1 iteration should last)
+
+
+            int IterationNumber = (int)((seconds ? (Time * 1000) : Time) / 100); // Number of iteration ( time / how long 1 iteration should last)
             double IterationValue = (V1 - V0) / IterationNumber;
             int Iterations = 0;
 
@@ -177,7 +169,7 @@ namespace AgilentMultimeter
             Timer.Start();
         }
 
-        static public  List<string> CheckForErrors(RP795A RP)
+        static public List<string> CheckForErrors(RP795A RP)
         {
             int errorNum = -1;
             string errorMsg = null;
@@ -193,13 +185,13 @@ namespace AgilentMultimeter
         static public void SetVoltage(RP795A RP, double Voltage)
         {
             RP.Driver.Output.Voltage.Level = Voltage;
-        //    RP.Driver.System.WaitForOperationComplete(100);
+            //    RP.Driver.System.WaitForOperationComplete(100);
         }
 
         static public void SetCurrent(RP795A RP, double Current)
         {
             RP.Driver.Output.Current.Level = Current;
-       //     RP.Driver.System.WaitForOperationComplete(100);
+            //     RP.Driver.System.WaitForOperationComplete(100);
         }
 
         static public void CloseDriver(RP795A RP)
@@ -215,26 +207,23 @@ namespace AgilentMultimeter
         public static void SetCurrentLimitMax(RP795A RP, double Current)
         {
             RP.Driver.Output.Current.PositiveLimit = Current;
-        } 
+        }
 
         public static void SetCurrentLimitMin(RP795A RP, double Current)
         {
             RP.Driver.Output.Current.NegativeLimit = Current;
         }
 
-        public static void GetConnectedDevices(out string[] Devices, out string[] FullNames)
+        public static void GetConnectedDevices(out string[] Devices)
         {
-          //  IEnumerable<string> enums = GlobalResourceManager.Find("USB0::10893::10242?*INSTR");
-            var enums = GlobalResourceManager.Find();
-           // var enums = GlobalResourceManager.Find("USB0::10893::10242?*INSTR");
+            //  IEnumerable<string> enums = GlobalResourceManager.Find("USB0::10893::10242?*INSTR");
+            var enums = GlobalResourceManager.Find("USB0::10893::10242?*INSTR");
             Devices = new string[enums.Count()];
-            FullNames = new string[enums.Count()];
             int i = 0;
             foreach (var item in enums)
             {
-               
-                Devices[i] = item.Substring(item.IndexOf("::INSTR") - 4, 4);
-                FullNames[i] = item;
+
+                Devices[i] = item.Substring(item.IndexOf("::0") - 4, 4);
                 i++;
             }
         }
